@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/* 마이페이지 메인 영역 */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* 헤더 + 푸터 제외한 영역 */
+  background-color: #121212;
+  color: #eee;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+/* readonly 필드 (예: 아이디) 시각적으로 구분 */
+.mypage-form input[readonly] {
+  background-color: #222;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+/* 마이페이지 컨테이너 */
+.mypage-container {
+  background-color: #1a1a1a;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  width: 400px;
+  box-sizing: border-box;
+}
+
+/* 제목 */
+.mypage-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 26px;
+}
+
+/* 폼 */
+.mypage-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 라벨 */
+.mypage-form label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+/* 입력 필드 */
+.mypage-form input[type="text"],
+.mypage-form input[type="email"],
+.mypage-form input[type="password"] {
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #121212;
+  color: #eee;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mypage-form input:focus {
+  border-color: #eee;
+}
+
+/* 버튼 */
+.mypage-form button {
+  padding: 14px 0;
+  background-color: transparent;
+  border: 1px solid #eee;
+  color: #eee;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mypage-form button:hover {
+  background-color: #eee;
+  color: #121212;
+}

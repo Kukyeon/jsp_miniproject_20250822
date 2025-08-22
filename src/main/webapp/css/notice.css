@@ -1,0 +1,78 @@
+@charset "UTF-8";
+body {
+  background-color: #121212;
+  color: #eee;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+}
+
+main {
+  padding: 60px 20px;
+  min-height: calc(100vh - 160px);
+  display: flex;
+  justify-content: center;
+}
+
+.board-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.board-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.board-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1f1f1f;
+  border: 1px solid #2a2a2a;
+}
+
+.board-table th,
+.board-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+  font-size: 15px;
+}
+
+.board-table th {
+  background-color: #2a2a2a;
+  font-weight: 600;
+  color: #fff;
+}
+
+.board-table tr:hover {
+  background-color: #2a2a2a;
+}
+
+.board-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 8px;
+}
+
+.board-pagination a {
+  color: #eee;
+  padding: 6px 12px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.board-pagination a:hover,
+.board-pagination a.active {
+  background-color: #eee;
+  color: #121212;
+}

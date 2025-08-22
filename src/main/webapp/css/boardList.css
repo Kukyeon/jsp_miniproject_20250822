@@ -1,0 +1,158 @@
+@charset "UTF-8";
+@charset "UTF-8";
+.board-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background-color: #121212; /* 메인 배경과 통일 */
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.board-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-form input[type="text"] {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: #eee;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.search-form input[type="text"]:focus {
+  border-color: #aaa;
+}
+
+.search-form button {
+  background-color: #444;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #eee;
+  transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+  background-color: #666;
+}
+
+.btn-write {
+  background-color: #444;
+  color: #eee;
+  font-weight: 600;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-write:hover {
+  background-color: #666;
+}
+
+.board-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.board-table th, .board-table td {
+  border: 1px solid #333;
+  padding: 12px 8px;
+  color: #eee;
+}
+
+/* 헤더 배경 */
+.board-table th {
+  background-color: #1f1f1f;
+}
+
+/* 제목(2번째 열)은 왼쪽 정렬 */
+.board-table th:nth-child(2),
+.board-table td:nth-child(2) {
+  text-align: left;
+  padding-left: 15px;
+}
+
+/* 조회수(5번째 열) 너비와 정렬 */
+.board-table th:nth-child(5),
+.board-table td:nth-child(5) {
+  width: 60px;
+  text-align: center;
+}
+
+/* 링크 스타일 */
+.board-table td a {
+  color: #eee;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.board-table td a:hover {
+  color: #bbb;
+  text-decoration: underline;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.page-num {
+  color: #eee;
+  background-color: #2e2e2e;
+  padding: 8px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.page-num:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.page-num.active {
+  background-color: #555;
+  color: #fff;
+  pointer-events: none;
+}
+
+.search-form select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #222;
+  color: #eee;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-form select:focus {
+  border-color: #aaa;
+}
+
+

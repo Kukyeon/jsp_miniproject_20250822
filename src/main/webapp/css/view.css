@@ -1,0 +1,117 @@
+@charset "UTF-8";
+body {
+  background-color: #121212;
+  color: #eee;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+}
+
+main {
+  padding: 60px 20px;
+  min-height: calc(100vh - 160px);
+  display: flex;
+  justify-content: center;
+}
+
+.notice-view-container,
+.notice-edit-container,
+.board-view-container,
+.board-edit-container {
+  width: 100%;
+  max-width: 800px;
+  background-color: #1f1f1f;
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.notice-meta,
+.board-meta {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.notice-content,
+.board-content {
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
+  color: #ddd;
+}
+
+.notice-buttons,
+.board-buttons,
+.form-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  background-color: #444;
+  color: #eee;
+  padding: 10px 18px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #eee;
+  color: #121212;
+}
+
+.btn-cancel {
+  background-color: #777;
+}
+
+.btn-cancel:hover {
+  background-color: #aaa;
+  color: #121212;
+}
+
+.notice-edit-form label,
+.board-edit-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #eee;
+}
+
+.notice-edit-form input[type="text"],
+.notice-edit-form textarea,
+.board-edit-form input[type="text"],
+.board-edit-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #333;
+  color: #eee;
+  font-size: 15px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.notice-edit-form input[readonly],
+.board-edit-form input[readonly] {
+  background-color: #555;
+  cursor: not-allowed;
+}

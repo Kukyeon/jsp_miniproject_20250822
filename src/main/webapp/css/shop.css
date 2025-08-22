@@ -1,0 +1,19 @@
+@charset "UTF-8";
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212; /* 다크 그레이/블랙 배경 */
+  padding: 50px;
+  text-align: center;
+  min-height: 70vh;
+}
+
+.main-content h1 {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px 40px;
+  border-radius: 8px;
+  font-size: 36px;
+  color: #fff;
+}
