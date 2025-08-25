@@ -46,7 +46,7 @@ public class BoardController extends HttpServlet {
 		MemberDao memberDao = new MemberDao();
 		System.out.println("comm = "+comm);
 		
-		if(comm.equals("/boardList.do")) {
+		if(comm.equals("/boardList.do")) { // 게시판리스트, 검색
 			String searchType = request.getParameter("searchType");
 			String searchKeyword = request.getParameter("searchKeyword");
 			int totalBoardCount = 0;
@@ -96,7 +96,7 @@ public class BoardController extends HttpServlet {
 			
 			viewPage = "boardList.jsp";
 			
-		}else if(comm.equals("/edit.do")) { 
+		}else if(comm.equals("/edit.do")) { //게시판 글쓰기 
 			
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
@@ -111,7 +111,7 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			
-		}else if(comm.equals("/edit2.do")) { 
+		}else if(comm.equals("/edit2.do")) { // 공지사항 글쓰기
 			
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
@@ -126,7 +126,7 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			
-		}else if(comm.equals("/view.do")) { 
+		}else if(comm.equals("/view.do")) { //게시글 확인
 			
 			// 조회 
 			String bnum = request.getParameter("bnum");
@@ -138,7 +138,7 @@ public class BoardController extends HttpServlet {
 			viewPage = "board_view.jsp";
 		
 
-		}else if(comm.equals("/view2.do")) {  
+		}else if(comm.equals("/view2.do")) {  //공지사항확인
 			
 			// 조회 
 			String bnum = request.getParameter("bnum");
@@ -150,7 +150,7 @@ public class BoardController extends HttpServlet {
 			viewPage = "notice_view.jsp";
 		
 
-		}else if(comm.equals("/update.do")) { 
+		}else if(comm.equals("/update.do")) { //게시글 수정요청
 			
 			String bnum = request.getParameter("bnum");
 			String btitle = request.getParameter("title");
@@ -163,7 +163,7 @@ public class BoardController extends HttpServlet {
 			
 			
 			viewPage = "board_view.jsp";
-		}else if(comm.equals("/update2.do")) { 
+		}else if(comm.equals("/update2.do")) { //공지사항 수정요청
 			
 			String bnum = request.getParameter("bnum");
 			String btitle = request.getParameter("title");
@@ -308,7 +308,7 @@ public class BoardController extends HttpServlet {
 			}
 			
 			viewPage = "edit2.do";
-		}else if(comm.equals("/notice.do")) {
+		}else if(comm.equals("/notice.do")) { //공지사항 목록
 			
 			String searchType = request.getParameter("searchType");
 			String searchKeyword = request.getParameter("searchKeyword");
@@ -361,7 +361,7 @@ public class BoardController extends HttpServlet {
 			
 			
 			viewPage = "notice.jsp";
-		}else if(comm.equals("/insert.do")) {
+		}else if(comm.equals("/insert.do")) { //게시판 수정요청
 			
 			    String title = request.getParameter("title");
 			    String content = request.getParameter("content");
@@ -372,7 +372,7 @@ public class BoardController extends HttpServlet {
 			    response.sendRedirect("boardList.do");
 			    return;
 
-		}else if(comm.equals("/insert2.do")) {
+		}else if(comm.equals("/insert2.do")) { // 공지사항 수정요청
 			 String title = request.getParameter("title");
 			   String content = request.getParameter("content");
 			   String author = request.getParameter("author");
@@ -406,14 +406,14 @@ public class BoardController extends HttpServlet {
 		        response.sendRedirect("signup.do");
 		    }
 		    return;
-		}else if(comm.equals("/logout.do")) {
+		}else if(comm.equals("/logout.do")) { // 로그아웃
 			session = request.getSession(false);
 			if(session != null) {
 				session.invalidate();
 			}
 			response.sendRedirect("index.do?message=logout");
 			return;
-		}else if(comm.equals("/delete.do")) {
+		}else if(comm.equals("/delete.do")) { // 게시글 삭제
 			String bnum = request.getParameter("bnum");
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
@@ -427,7 +427,7 @@ public class BoardController extends HttpServlet {
 				response.sendRedirect("edit.do?error=1");
 				return;
 			}
-		}else if(comm.equals("/delete2.do")) {
+		}else if(comm.equals("/delete2.do")) { // 공지사항 삭제
 			String bnum = request.getParameter("bnum");
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
