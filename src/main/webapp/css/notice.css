@@ -1,4 +1,6 @@
 @charset "UTF-8";
+
+/* 기본 설정 */
 body {
   background-color: #121212;
   color: #eee;
@@ -8,19 +10,28 @@ body {
 
 main {
   padding: 60px 20px;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 160px); /* 헤더 + 푸터 제외 높이 */
   display: flex;
   justify-content: center;
 }
 
 .board-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1000px;  /* 이전 사이즈 유지 */
+  margin: 0 auto;
+  padding: 30px 20px;
+  background-color: #121212; /* 메인 배경과 통일 */
+  border-radius: 8px;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* 헤더 + 글쓰기 버튼 */
 .board-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* 원래대로 좌우 분배 */
   align-items: center;
   margin-bottom: 25px;
 }
@@ -28,51 +39,102 @@ main {
 .board-header h2 {
   font-size: 24px;
   font-weight: 700;
+  margin: 0;
+  color: #fff;
 }
 
+/* ✏️ 글쓰기 버튼 */
+.btn-write {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #444;
+  color: #eee;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-write:hover {
+  background-color: #666;
+}
+
+/* 📝 게시판 테이블 */
 .board-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #1f1f1f;
   border: 1px solid #2a2a2a;
+  text-align: center;
 }
 
 .board-table th,
 .board-table td {
   padding: 14px 16px;
-  text-align: left;
   border-bottom: 1px solid #333;
   font-size: 15px;
+  color: #eee;
 }
 
+/* 헤더 배경 */
 .board-table th {
   background-color: #2a2a2a;
   font-weight: 600;
   color: #fff;
 }
 
+/* 제목(2번째 열)은 왼쪽 정렬 */
+.board-table th:nth-child(2),
+.board-table td:nth-child(2) {
+  text-align: left;
+  padding-left: 20px;
+}
+
+/* 링크 스타일 */
+.board-table td a {
+  color: #eee;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.board-table td a:hover {
+  color: #bbb;
+  text-decoration: underline;
+}
+
 .board-table tr:hover {
   background-color: #2a2a2a;
 }
 
-.board-pagination {
+/* 📄 페이지네이션 */
+.pagination {
   display: flex;
   justify-content: center;
+  gap: 10px;
   margin-top: 30px;
-  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.board-pagination a {
-  color: #eee;
-  padding: 6px 12px;
-  border: 1px solid #444;
+.pagination a,
+.pagination span {
+  padding: 8px 14px;
   border-radius: 4px;
   text-decoration: none;
-  transition: background 0.3s ease;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #eee;
+  background-color: #2e2e2e;
+  border: none;
 }
 
-.board-pagination a:hover,
-.board-pagination a.active {
-  background-color: #eee;
-  color: #121212;
+.pagination a:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.pagination span {
+  background-color: #555;
+  color: #fff;
+  pointer-events: none;
 }

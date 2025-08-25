@@ -11,13 +11,15 @@
   <link rel="stylesheet" href="css/footer.css" />
 </head>
 <body>
-
+<%= request.getAttribute("msg") %>
 <jsp:include page="header.jsp" />
 
 <main>
+
+
 	<div class="login-container">
 	  <h2>로그인</h2>
-	  <form action="login_process.jsp" method="post" class="login-form">
+	  <form action="loginOk.do" method="post" class="login-form">
 	    <label for="memberid">아이디</label>
 	    <input type="text" id="memberid" name="memberid" placeholder="아이디를 입력하세요" required />
 	
@@ -38,11 +40,7 @@
       			아이디 또는 비밀번호가 잘못 되었습니다.
       		</p>
       	</c:if>
-      		<c:if test="${param.msg == 2}">
-      		<p style="color: red;">
-      			로그인 한 유저만 글을 쓸 수 있습니다.
-      		</p>
-      	</c:if>
+      		
     </div>
 
 </main>

@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/boardList.css" />
   <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
 </head>
 <body>
 
@@ -47,15 +49,16 @@
       </thead>
       <tbody>
        <c:forEach items="${bDtos}" var="bDto" varStatus="status">
+         <c:if test="${bDto.memberid != '관리자'}">
         <tr>
           <td>${bDto.bno }</td>
           <td>
           	<c:choose>
           		<c:when test="${fn:length(bDto.btitle) > 10}">
-         			 <a href="board_view.do?bnum=${bDto.bnum}">${fn:substring(bDto.btitle, 0, 10)}...</a>
+         			 <a href="view.do?bnum=${bDto.bnum}">${fn:substring(bDto.btitle, 0, 10)}...</a>
           		</c:when>
           		<c:otherwise>
-          			 <a href="board_view.do?bnum=${bDto.bnum}">${bDto.btitle}</a>
+          			 <a href="view.do?bnum=${bDto.bnum}">${bDto.btitle}</a>
           		</c:otherwise>
           	</c:choose>
           </td>
@@ -63,7 +66,9 @@
           <td>${fn:substring(bDto.bdate, 0 , 10) }</td>
           <td>${bDto.bhit }</td> <!-- 추가 -->
         </tr>
+         </c:if>
        </c:forEach> 
+       
         <!-- 실제 DB 데이터로 대체하세요 -->
       </tbody>
     </table>

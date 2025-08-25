@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,18 +16,24 @@
 
 <main>
   <div class="notice-view-container">
-    <h2>공지사항 제목 예시</h2>
+    <h2>${bDto.btitle}</h2>
     <div class="notice-meta">
-      <span>작성자: 관리자</span>
-      <span>작성일: 2025-09-10</span>
+      <span>작성자: ${bDto.memberid}</span>
+      <span>작성일: ${fn:substring(bDto.bdate, 0, 10) }</span>
     </div>
     <div class="notice-content">
-      <p>안녕하세요, 추석 연휴 배송 일정 안내드립니다.<br />
-      추석 기간에는 배송이 지연될 수 있으니 참고 부탁드립니다.</p>
+      <p>${bDto.bcontent}</p>
     </div>
     <div class="notice-buttons">
-      <a href="notice.jsp" class="btn">목록으로</a>
-      <a href="notice_edit.jsp" class="btn">수정하기</a>
+      <a href="notice.do" class="btn">목록으로</a>
+      
+      
+      <c:if test="${sessionScope.sessionId == '관리자'}"> <!-- 단 한명만 수정가능하게 하려면 아이디입력 -->
+    <a href="edit2.do?bnum=${bDto.bnum}" class="btn btn-edit">수정하기</a>
+    <form action="delete.do" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display:inline;">
+      <input type="hidden" name="bnum" value="${bDto.bnum}" />
+      <button type="submit" class="btn btn-delete">삭제하기</button>
+      </c:if>
     </div>
   </div>
 </main>

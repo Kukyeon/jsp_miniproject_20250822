@@ -13,21 +13,28 @@
 <jsp:include page="header.jsp" />
 
 <main>
+<%
+  if (request.getAttribute("error") != null) {
+   
+    out.println("<script>alert('수정 또는 삭제 권한이 없습니다.'); window.location.href='history.go(-1)';</script>");
+  }
+%>
   <div class="board-edit-container">
     <h2>게시글 수정</h2>
-    <form action="board_update_process.jsp" method="post" class="board-edit-form">
+    <form action="update.do" method="post" class="board-edit-form">
+    	<input type="hidden" name="bnum" value="${bDto.bnum }" />
       <label for="title">제목</label>
-      <input type="text" id="title" name="title" value="게시글 제목 예시" required />
+      <input type="text" id="title" name="title" value="${bDto.btitle}" required />
 
       <label for="author">작성자</label>
-      <input type="text" id="author" name="author" value="홍길동" readonly />
+      <input type="text" id="author" name="author" value="${bDto.memberid}" readonly />
 
       <label for="content">내용</label>
-      <textarea id="content" name="content" rows="10" required>게시글 내용 예시입니다...</textarea>
+      <textarea id="content" name="content" rows="10" required>${bDto.bcontent}</textarea>
 
       <div class="form-buttons">
         <button type="submit" class="btn">저장</button>
-        <a href="board_view.jsp" class="btn btn-cancel">취소</a>
+        <a href="javascript:history.go(-1)" class="btn btn-cancel">취소</a>
       </div>
     </form>
   </div>

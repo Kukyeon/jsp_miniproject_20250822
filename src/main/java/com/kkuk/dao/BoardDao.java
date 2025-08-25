@@ -26,9 +26,10 @@ public class BoardDao {
 	
 	
 	public List<BoardDto> boardList(int page){ // 게시판 모든 글 + 내림차순
-		String sql = "SELECT row_number() OVER (order by bnum ASC) AS bno, "
+		String sql = "SELECT row_number() OVER (order by b.bnum ASC) AS bno, "
 				+ " b.bnum, b.btitle, b.bcontent, b.memberid, b.bdate, b.bhit "
-				+ " FROM board "
+				+ " FROM board b"
+				+ " LEFT JOIN members m ON b.memberid = m.memberid "
 				+ " ORDER BY bno DESC "
 				+ " LIMIT ? OFFSET ?";
 		int offset = (page -1) * PAGE_SIZE;
@@ -49,8 +50,9 @@ public class BoardDao {
 				String btitle = rs.getString("btitle");
 				String bcontent = rs.getString("bcontent");
 				String memberid = rs.getString("memberid");
-				String bdate = rs.getString("bdate");				
 				int bhit = rs.getInt("bhit");
+				String bdate = rs.getString("bdate");				
+				
 				
 				MemberDto memberDto = new MemberDto();
 				memberDto.setMemberid(memberid);
@@ -80,10 +82,10 @@ public class BoardDao {
 			return bDtos;
 		}
 		public List<BoardDto> searchList(String searchKeyword, String searchType, int page){
-			String sql = "SELECT row_number() OVER (order by bnum ASC) AS bno,"
-					+ "b.bnum, b.btitle, b.bcontent, b.memberid, m.memberemail, b.bdate, b.bhit "
+			String sql = "SELECT row_number() OVER (order by b.bnum ASC) AS bno,"
+					+ "b.bnum, b.btitle, b.bcontent, b.memberid, b.bdate, b.bhit "
 					+ "FROM board b "
-					+ "LEFT JOIN members m ON b.memberid = m.memberid"
+					+ "LEFT JOIN members m ON b.memberid = m.memberid "
 					+ " WHERE " + searchType + " LIKE ?"
 					+ " ORDER BY bno DESC"
 					+ " LIMIT ? OFFSET ?";
@@ -109,16 +111,16 @@ public class BoardDao {
 					String memberid = rs.getString("memberid");
 					int bhit = rs.getInt("bhit");
 					String bdate = rs.getString("bdate");				
-					String memberemail = rs.getString("memberemail");
+					
 					
 					
 					
 					MemberDto memberDto = new MemberDto();
 					memberDto.setMemberid(memberid); 
-					memberDto.setMemberemail(memberemail); 
+					
 					
 					BoardDto bDto = new BoardDto(bno, bnum, btitle, bcontent, memberid, bhit, bdate, memberDto);
-					
+					bDtos.add(bDto);
 					
 				}	
 				
@@ -175,8 +177,8 @@ public class BoardDao {
 		}
 		}
 		
-		public void boardUpdate(String btitle, String bcontent, String bnum) {
-			String sql = "UPDATE board SET btitl=?, bcontent=? WHERE bnum=?";
+		public void boardUpdate(String bnum, String btitle, String bcontent) {
+			String sql = "UPDATE board SET btitle=?, bcontent=? WHERE bnum=?";
 			
 			try {
 				Class.forName(driverName); //MySQL 드라이버 클래스 불러오기			
@@ -269,7 +271,7 @@ public class BoardDao {
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, bnum);
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				
 			}catch(Exception e){
 				System.out.println("DB 에러 발생! 게시판 글 삭제 실패!");
@@ -290,7 +292,7 @@ public class BoardDao {
 		}
 		
 		public void boardDelete(String bnum) {
-			String sql = "DELETE FROM board WHERE bnum=?";
+			String sql = "DELETE FROM board WHERE bnum = ?";
 			
 			try {
 				Class.forName(driverName); //MySQL 드라이버 클래스 불러오기			
@@ -298,7 +300,7 @@ public class BoardDao {
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, bnum);
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				
 			}catch(Exception e){
 				System.out.println("DB 에러 발생! 게시판 글 삭제 실패!");
@@ -315,6 +317,101 @@ public class BoardDao {
 					e.printStackTrace();
 				}
 			}
+		}
+		public List<BoardDto> getAdminPosts(int page) {
+		    String sql = "SELECT row_number() OVER (ORDER BY b.bnum ASC) AS bno, "
+		               + "b.bnum, b.btitle, b.bcontent, b.memberid, b.bdate, b.bhit "
+		               + "FROM board b "
+		               + "WHERE b.memberid = '관리자' "
+		               + "ORDER BY bno DESC "
+		               + "LIMIT ? OFFSET ?";
+		    
+		    int offset = (page - 1) * PAGE_SIZE;
+		    List<BoardDto> bDtos = new ArrayList<>();
+
+		    try {
+		        Class.forName(driverName);
+		        conn = DriverManager.getConnection(url, username, password);
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, PAGE_SIZE);
+		        pstmt.setInt(2, offset);
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		            
+		        	int bno = rs.getInt("bno");
+					int bnum = rs.getInt("bnum");
+					String btitle = rs.getString("btitle");
+					String bcontent = rs.getString("bcontent");
+					String memberid = rs.getString("memberid");
+					int bhit = rs.getInt("bhit");
+					String bdate = rs.getString("bdate");				
+					
+					
+					
+					
+					MemberDto memberDto = new MemberDto();
+					memberDto.setMemberid(memberid); 
+					
+					
+					BoardDto bDto = new BoardDto(bno, bnum, btitle, bcontent, memberid, bhit, bdate, memberDto);
+					bDtos.add(bDto);
+		            
+		        
+		        }
+		    } catch (Exception e) {
+		        System.out.println("DB 에러 발생! 관리자 게시글 목록 실패!");
+		        e.printStackTrace();
+		    } finally {
+		        try { if (rs != null) rs.close(); if (pstmt != null) pstmt.close(); if (conn != null) conn.close(); } catch (Exception e) {}
+		    }
+
+		    return bDtos;
+		}
+		public List<BoardDto> searchAdminList(String searchKeyword, String searchType, int page) {
+		    String sql = "SELECT row_number() OVER (ORDER BY b.bnum ASC) AS bno, "
+		               + "b.bnum, b.btitle, b.bcontent, b.memberid, b.bdate, b.bhit "
+		               + "FROM board b "
+		               + "WHERE b.memberid = '관리자' AND " + searchType + " LIKE ? "
+		               + "ORDER BY bno DESC "
+		               + "LIMIT ? OFFSET ?";
+		    
+		    int offset = (page - 1) * PAGE_SIZE;
+		    List<BoardDto> bDtos = new ArrayList<>();
+
+		    try {
+		        Class.forName(driverName);
+		        conn = DriverManager.getConnection(url, username, password);
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, "%" + searchKeyword + "%");
+		        pstmt.setInt(2, PAGE_SIZE);
+		        pstmt.setInt(3, offset);
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		        	int bno = rs.getInt("bno");
+					int bnum = rs.getInt("bnum");
+					String btitle = rs.getString("btitle");
+					String bcontent = rs.getString("bcontent");
+					String memberid = rs.getString("memberid");
+					int bhit = rs.getInt("bhit");
+					String bdate = rs.getString("bdate");	
+					
+					MemberDto memberDto = new MemberDto();
+					memberDto.setMemberid(memberid); 
+					
+					
+					BoardDto bDto = new BoardDto(bno, bnum, btitle, bcontent, memberid, bhit, bdate, memberDto);
+					bDtos.add(bDto);
+		        }
+		    } catch (Exception e) {
+		        System.out.println("DB 에러 발생! 관리자 게시글 검색 실패!");
+		        e.printStackTrace();
+		    } finally {
+		        try { if (rs != null) rs.close(); if (pstmt != null) pstmt.close(); if (conn != null) conn.close(); } catch (Exception e) {}
+		    }
+
+		    return bDtos;
 		}
 
 		

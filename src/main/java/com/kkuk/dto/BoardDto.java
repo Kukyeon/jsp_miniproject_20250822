@@ -10,6 +10,7 @@ public class BoardDto {
 	private int bhit; // 조회수
 	private String bdate; // 글쓴날자
 	private MemberDto member; // 회원정보 클래스로 선언한 객체를 멤버변수를 영입
+	
 	public BoardDto() {
 		super();
 		// TODO Auto-generated constructor stub

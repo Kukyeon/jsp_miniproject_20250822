@@ -26,8 +26,8 @@ public class MemberDao {
 	int sqlResult = 0;
 	
 	
-		public int idCheck(String id) { // 아이디 존재여부 확인
-			 String sql = "SELECT * FROM members WHERE memberid = ? ";
+		public int idCheck(String id, String pw) { // 아이디 존재여부 확인
+			 String sql = "SELECT * FROM members WHERE memberid = ? AND memberpw = ?";
 			 
 			 try{ 
 					Class.forName(driverName); // MySQL 드라이버 클래스 불러오기
@@ -35,15 +35,16 @@ public class MemberDao {
 					pstmt = conn.prepareStatement(sql); // pstmt 객체 생성
 					
 					pstmt.setString(1, id);
+					pstmt.setString(2, pw);
 					
 					rs = pstmt.executeQuery(); 
 					
 					
-					if(rs.next()) { //아이디 가입 불가
-						sqlResult = MEMBER_ID_EXISTENT; // 존재하는 아이디
+					if(rs.next()) { 
+						sqlResult = 1; // 존재하는 아이디
 						
-					}else { // 아이디 가입 가능
-						sqlResult = MEMBER_ID_NONEXISTENT; // 존재하지않는 아이디
+					}else { 
+						sqlResult = 0; // 존재하지않는 아이디
 					}
 					
 				} catch (Exception e) {
@@ -81,7 +82,7 @@ public class MemberDao {
 			pstmt.setString(2, memberDto.getMemberpw());
 			pstmt.setString(3, memberDto.getMembername());
 			pstmt.setString(4, memberDto.getMemberemail());
-			pstmt.setString(5, memberDto.getMemberdate());
+			
 			
 			sqlResult = pstmt.executeUpdate();
 			
@@ -156,7 +157,102 @@ public class MemberDao {
 		return sqlResult;  // 로그인 성공 = 1 , 로그인실패 = 0 
 	}
 		
+	public int updatemember(String memberid, String memberpw, String memberemail) {
+		String sql = "UPDATE members SET memberpw = ?, memberemail = ? WHERE memberid = ?";
+
+		int sqlResult = 0;
+		
+		try{ // 에러 날 가능성이 높기때문에 예외처리 필수 트라이 캣치
+			Class.forName(driverName); // MySQL 드라이버 클래스 불러오기
+			conn = DriverManager.getConnection(url, username, password);
+			//conn 커넥션이 메모리에 생성이됨 (DB와의 연결 커넥션 conn 생성)
+			// stmt = conn.createStatement(); // stmt 객체 생성
+			
+			pstmt = conn.prepareStatement(sql); // pstmt 객체 생성
+			
+			pstmt.setString(1, memberpw);
+			pstmt.setString(2, memberemail);
+			pstmt.setString(3, memberid);
+			
+			int Result = pstmt.executeUpdate(); // 성공시 sqlResult 값이 1로 변환
+			
+			
+			if(Result > 0) { 
+				sqlResult = 1; 
+				
+			}else { 
+				sqlResult = 0;
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("DB 에러 아이디 삭제 에러로 인해 실패");
+			e.printStackTrace(); // 에러 내용 출력
+		} finally { // 에러 발생 여부와 상관없이 커넥션 닫아줘야함
+			try{
+				
+				if(pstmt != null){ // pstmt가 null 아니면 닫기 (conn 보다 먼저 실행되어야함)
+					pstmt.close();
+				}
+				if(conn != null){ // 커넥션이 null이 아닐때만 닫기
+					conn.close();
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return sqlResult; // 1로 반환되면 삭제 성공, 0으로 반환되면 삭제 실패
+		
+		
+	}
 	
+	public MemberDto getMemberInfo(String memberid) {
+		
+		String sql = "SELECT * FROM members WHERE memberid = ? ";
+		MemberDto memberDto = new MemberDto();
+		
+		try{ // 에러 날 가능성이 높기때문에 예외처리 필수 트라이 캣치
+			Class.forName(driverName); // MySQL 드라이버 클래스 불러오기
+			conn = DriverManager.getConnection(url, username, password);
+			//conn 커넥션이 메모리에 생성이됨 (DB와의 연결 커넥션 conn 생성)
+			// stmt = conn.createStatement(); // stmt 객체 생성
+			
+			pstmt = conn.prepareStatement(sql); // pstmt 객체 생성
+			pstmt.setString(1, memberid);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			if(rs.next()) { 
+				 memberDto.setMemberid(rs.getString("memberid"));
+				 memberDto.setMemberpw(rs.getString("memberpw"));
+				
+				 memberDto.setMemberemail(rs.getString("memberemail"));
+				 
+			
+			}
+			
+		} catch (Exception e) {
+			System.out.println("DB 에러 아이디 존재 여부 체크 실패");
+			e.printStackTrace(); // 에러 내용 출력
+		} finally { // 에러 발생 여부와 상관없이 커넥션 닫아줘야함
+			try{
+				if(rs != null){ // rs가 null 아니면 닫기 (spstmt 보다 먼저 실행되어야함)
+					rs.close();
+				}
+				if(pstmt != null){ // pstmt가 null 아니면 닫기 (conn 보다 먼저 실행되어야함)
+					pstmt.close();
+				}
+				if(conn != null){ // 커넥션이 null이 아닐때만 닫기
+					conn.close();
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return memberDto; 
 	
+	}
 	
 }
+
