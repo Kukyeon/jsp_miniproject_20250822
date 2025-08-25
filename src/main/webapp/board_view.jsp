@@ -27,13 +27,23 @@
     <div class="board-buttons">
       <a href="boardList.do" class="btn">목록으로</a>
       
-     <c:if test="${sessionScope.sessionId == bDto.memberid || sessionScope.sessionId == bDto.memberid eq '관리자'}">
+      <c:choose>
+      <c:when test="${sessionScope.sessionId == '관리자'}">
+      <a href="edit.do?bnum=${bDto.bnum}" class="btn btn-edit">수정하기</a>
+	    <form action="delete.do" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display:inline;">
+	      <input type="hidden" name="bnum" value="${bDto.bnum}" />
+	      <button type="submit" class="btn btn-delete">삭제하기</button>
+      </c:when>
+      <c:otherwise>
+      
+     	<c:if test="${sessionScope.sessionId == bDto.memberid }">
 	    <a href="edit.do?bnum=${bDto.bnum}" class="btn btn-edit">수정하기</a>
 	    <form action="delete.do" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display:inline;">
 	      <input type="hidden" name="bnum" value="${bDto.bnum}" />
 	      <button type="submit" class="btn btn-delete">삭제하기</button>
-      </c:if>
-      
+      	</c:if>
+      </c:otherwise>
+      </c:choose>
     </form>
     </div>
   </div>

@@ -96,7 +96,7 @@ public class BoardController extends HttpServlet {
 			
 			viewPage = "boardList.jsp";
 			
-		}else if(comm.equals("/edit.do")) { //modify
+		}else if(comm.equals("/edit.do")) { 
 			
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
@@ -111,7 +111,7 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			
-		}else if(comm.equals("/edit2.do")) { //modify
+		}else if(comm.equals("/edit2.do")) { 
 			
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
@@ -126,7 +126,7 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			
-		}else if(comm.equals("/view.do")) {  // modifyOk
+		}else if(comm.equals("/view.do")) { 
 			
 			// 조회 
 			String bnum = request.getParameter("bnum");
@@ -138,7 +138,7 @@ public class BoardController extends HttpServlet {
 			viewPage = "board_view.jsp";
 		
 
-		}else if(comm.equals("/view2.do")) {  // modifyOk
+		}else if(comm.equals("/view2.do")) {  
 			
 			// 조회 
 			String bnum = request.getParameter("bnum");
@@ -150,7 +150,7 @@ public class BoardController extends HttpServlet {
 			viewPage = "notice_view.jsp";
 		
 
-		}else if(comm.equals("/update.do")) { //modifyOk
+		}else if(comm.equals("/update.do")) { 
 			
 			String bnum = request.getParameter("bnum");
 			String btitle = request.getParameter("title");
@@ -163,7 +163,7 @@ public class BoardController extends HttpServlet {
 			
 			
 			viewPage = "board_view.jsp";
-		}else if(comm.equals("/update2.do")) { //modifyOk
+		}else if(comm.equals("/update2.do")) { 
 			
 			String bnum = request.getParameter("bnum");
 			String btitle = request.getParameter("title");
@@ -218,7 +218,7 @@ public class BoardController extends HttpServlet {
 			
 		}else if(comm.equals("/login.do")) {
 			viewPage = "login.jsp";
-		}else if(comm.equals("/mypage.do")) {
+		}else if(comm.equals("/mypage.do")) { // 내정보수정
 			
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId"); 
@@ -238,7 +238,7 @@ public class BoardController extends HttpServlet {
 			  
 			
 
-		}else if(comm.equals("/mypageOk.do")) {
+		}else if(comm.equals("/mypageOk.do")) { //정보수정 요청
 			
 			session = request.getSession();
 			String sid = (String) session.getAttribute("sessionId");
@@ -278,13 +278,13 @@ public class BoardController extends HttpServlet {
 			  
 			
 
-		}else if(comm.equals("/edit.do")) { // 수정
+		}else if(comm.equals("/edit.do")) { // 게시글 수정
 			session = request.getSession();
 			String sid = (String)session.getAttribute("sessionId");
 			String bnum = request.getParameter("bnum");
 			BoardDto bDto = boardDao.contentView(bnum);
 			
-			if(bDto.getMemberid().equals(sid)){
+			if(bDto.getMemberid().equals(sid) || "관리자".equals(sid)){
 				request.setAttribute("bDto", bDto);
 				viewPage = "board_edit.jsp";
 			}else {
@@ -420,7 +420,7 @@ public class BoardController extends HttpServlet {
 			
 			BoardDto boardDto = boardDao.contentView(bnum);
 			
-			if(boardDto.getMemberid().equals(sid)) {
+			if(boardDto.getMemberid().equals(sid) || "관리자".equals(sid)) {
 				boardDao.boardDelete(bnum);
 				viewPage = "boardList.do";
 			}else {
